@@ -1,6 +1,6 @@
 <?php
 
-namespace RyanChandler\FilamentNavigation\Database\Factories;
+namespace VanOns\FilamentNavigation\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 

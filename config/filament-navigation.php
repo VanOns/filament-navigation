@@ -1,8 +1,8 @@
 <?php
-// config for RyanChandler/FilamentNavigation
+// config for VanOns/FilamentNavigation
 return [
 
-    'navigation_model' => \RyanChandler\FilamentNavigation\Models\Navigation::class,
+    'navigation_model' => \VanOns\FilamentNavigation\Models\Navigation::class,
 
-    'navigation_resource' => \RyanChandler\FilamentNavigation\Filament\Resources\NavigationResource::class,
+    'navigation_resource' => \VanOns\FilamentNavigation\Filament\Resources\NavigationResource::class,
 ];

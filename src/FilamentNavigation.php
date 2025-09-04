@@ -1,6 +1,6 @@
 <?php
 
-namespace RyanChandler\FilamentNavigation;
+namespace VanOns\FilamentNavigation;
 
 use Closure;
 use Filament\Contracts\Plugin;
@@ -8,8 +8,8 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Panel;
 use Illuminate\Support\Str;
-use RyanChandler\FilamentNavigation\Filament\Resources\NavigationResource;
-use RyanChandler\FilamentNavigation\Models\Navigation;
+use VanOns\FilamentNavigation\Filament\Resources\NavigationResource;
+use VanOns\FilamentNavigation\Models\Navigation;
 
 class FilamentNavigation implements Plugin
 {
