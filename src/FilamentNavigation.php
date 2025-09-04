@@ -21,6 +21,8 @@ class FilamentNavigation implements Plugin
 
     protected array | Closure $extraFields = [];
 
+    protected ?array $mountedActionData = null;
+
     public function getId(): string
     {
         return 'navigation';
@@ -72,12 +74,18 @@ class FilamentNavigation implements Plugin
 
     public static function make(): static
     {
-        return new static();
+        /** @var static $instance */
+        $instance = app(static::class);
+
+        return $instance;
     }
 
     public static function get(): static
     {
-        return filament('navigation');
+        /** @var static $plugin */
+        $plugin = filament('navigation');
+
+        return $plugin;
     }
 
     public function getModel(): string

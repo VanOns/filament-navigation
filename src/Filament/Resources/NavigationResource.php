@@ -66,7 +66,7 @@ class NavigationResource extends Resource
                         ]),
                 ])
                     ->columnSpan([
-                        12,
+                        'default' => 12,
                         'lg' => 8,
                     ]),
                 Group::make([
@@ -92,7 +92,7 @@ class NavigationResource extends Resource
                         ]),
                 ])
                     ->columnSpan([
-                        12,
+                        'default' => 12,
                         'lg' => 4,
                     ]),
             ])

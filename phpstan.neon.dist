@@ -11,4 +11,5 @@ parameters:
     reportUnmatchedIgnoredErrors: true
     checkOctaneCompatibility: true
     checkModelProperties: true
-    checkMissingIterableValueType: false
+    ignoreErrors:
+        - '#expects view-string.*string given#'

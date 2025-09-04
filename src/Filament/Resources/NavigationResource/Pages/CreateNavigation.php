@@ -10,6 +10,8 @@ class CreateNavigation extends CreateRecord
 {
     use HandlesNavigationBuilder;
 
+    protected ?array $mountedActionData = null;
+
     public static function getResource(): string
     {
         return FilamentNavigation::get()->getResource();
