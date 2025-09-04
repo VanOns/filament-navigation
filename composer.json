@@ -55,7 +55,8 @@
         "analyse": "vendor/bin/phpstan analyse",
         "test": "vendor/bin/pest",
         "test-coverage": "vendor/bin/pest coverage",
-        "format": "vendor/bin/php-cs-fixer fix --config=.php_cs.dist.php --allow-risky=yes"
+        "format": "vendor/bin/php-cs-fixer fix --config=.php_cs.dist.php --allow-risky=yes",
+        "format:check": "vendor/bin/php-cs-fixer check --config=.php_cs.dist.php --allow-risky=yes"
     },
     "config": {
         "sort-packages": true,
