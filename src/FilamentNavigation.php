@@ -76,6 +76,7 @@ class FilamentNavigation implements Plugin
     {
         /** @var static $instance */
         $instance = app(static::class);
+
         return $instance;
     }
 
@@ -83,6 +84,7 @@ class FilamentNavigation implements Plugin
     {
         /** @var static $plugin */
         $plugin = filament('navigation');
+
         return $plugin;
     }
 
