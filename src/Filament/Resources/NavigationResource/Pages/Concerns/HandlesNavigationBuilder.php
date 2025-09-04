@@ -3,12 +3,13 @@
 namespace VanOns\FilamentNavigation\Filament\Resources\NavigationResource\Pages\Concerns;
 
 use Filament\Actions\Action;
-use Filament\Schemas\Components\Utilities\Get;
-use Filament\Schemas\Components\Component;
-use Filament\Schemas\Components\Group;
-use Filament\Schemas\Schema;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Component;
+use Filament\Schemas\Components\Group;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
+use Filament\Schemas\Schema;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use VanOns\FilamentNavigation\FilamentNavigation;
@@ -92,19 +93,12 @@ trait HandlesNavigationBuilder
 
                             return array_combine(array_keys($types), Arr::pluck($types, 'name'));
                         })
-                        ->afterStateUpdated(function ($state, Select $component): void {
+                        ->afterStateUpdated(function ($state, Select $component, Set $set): void {
                             if (! $state) {
                                 return;
                             }
 
-                            // NOTE: This chunk of code is a workaround for Livewire not letting
-                            //       you entangle to non-existent array keys, which wire:model
-                            //       would normally let you do.
-                            $group = $component
-                                ->getContainer()
-                                ->getComponent(fn(Component $child) => $child instanceof Group);
-
-                            $group?->fill();
+                            $set('data', []);
                         })
                         ->reactive(),
                     Group::make()
@@ -117,7 +111,7 @@ trait HandlesNavigationBuilder
                         }),
                     Group::make()
                         ->statePath('data')
-                        ->visible(fn(Component $component) => $component->evaluate(FilamentNavigation::get()->getExtraFields()) !== [])
+                        ->visible(fn (Component $component) => $component->evaluate(FilamentNavigation::get()->getExtraFields()) !== [])
                         ->schema(function (Component $component) {
                             return FilamentNavigation::get()->getExtraFields();
                         }),

@@ -7,13 +7,13 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
-use Filament\Resources\Resource;
-use Filament\Schemas\Components\Section;
 use Filament\Infolists\Components\TextEntry;
-use Filament\Schemas\Components\Utilities\Set;
-use Filament\Schemas\Components\View;
+use Filament\Resources\Resource;
 use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Group;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Set;
+use Filament\Schemas\Components\View;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -58,8 +58,8 @@ class NavigationResource extends Resource
                         })
                         ->required(),
                     Hidden::make('items')
-                        ->default([])       
-                        ->dehydrated(true),  
+                        ->default([])
+                        ->dehydrated(true),
                     Fieldset::make(__('filament-navigation::filament-navigation.attributes.items'))
                         ->schema([
                             View::make('filament-navigation::navigation-builder'),
