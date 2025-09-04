@@ -177,6 +177,7 @@ fabric.properties
 
 .php_cs
 .php_cs.cache
+.phpunit.cache
 build
 coverage
 phpunit.xml

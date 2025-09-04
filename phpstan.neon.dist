@@ -11,4 +11,3 @@ parameters:
     reportUnmatchedIgnoredErrors: true
     checkOctaneCompatibility: true
     checkModelProperties: true
-    checkMissingIterableValueType: false
