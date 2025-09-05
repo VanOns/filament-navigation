@@ -19,19 +19,21 @@ jobs:
       fail-fast: true
       matrix:
         os: [ ubuntu-latest ]
-        php: [ 8.2 ]
+        php: [ 8., 8.3 ]
         laravel: [  11.*, 12.* ]
         stability: [ prefer-lowest, prefer-stable ]
         include:
+          # Laravel 11
           - laravel: 11.*
+            php: 8.2
             testbench: ^9.0
-          - laravel: 12.*
-            testbench: ^10.0
-        exclude:
           - laravel: 11.*
-            php: 8.2
+            php: 8.3
+            testbench: ^9.0
+          # Laravel 12
           - laravel: 12.*
-            php: 8.2
+            php: 8.3
+            testbench: ^10.0
 
     steps:
       - name: 📄 Clone repository
