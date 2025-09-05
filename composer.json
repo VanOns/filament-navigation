@@ -28,7 +28,7 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.87",
         "nunomaduro/collision": "^8.8",
-        "nunomaduro/larastan": "^3.6",
+        "larastan/larastan": "^3.6",
         "orchestra/canvas": "^10.0",
         "orchestra/testbench": "^10.6",
         "pestphp/pest": "^3.8",
@@ -54,7 +54,8 @@
         "analyse": "vendor/bin/phpstan analyse",
         "test": "vendor/bin/pest",
         "test-coverage": "vendor/bin/pest coverage",
-        "format": "vendor/bin/php-cs-fixer fix --config=.php_cs.dist.php --allow-risky=yes"
+        "format": "vendor/bin/php-cs-fixer fix --config=.php_cs.dist.php --allow-risky=yes",
+        "format:check": "vendor/bin/php-cs-fixer fix --dry-run --config=.php_cs.dist.php --allow-risky=yes"
     },
     "config": {
         "sort-packages": true,

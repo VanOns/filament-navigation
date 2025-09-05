@@ -17,6 +17,7 @@ use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Support\Str;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
+
 use VanOns\FilamentNavigation\FilamentNavigationServiceProvider;
 
 class TestCase extends Orchestra
