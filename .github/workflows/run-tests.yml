@@ -63,10 +63,14 @@ jobs:
       - name: 📄 Clone repository
         uses: actions/checkout@v4
 
+      - name: 🔎 Read PHP version
+        id: php
+        run: echo "version=$(cat .php-version)" >> $GITHUB_OUTPUT
+
       - name: ⚙️Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: $(cat .php-version)
+          php-version: ${{ steps.php.outputs.version }}
           coverage: none
 
       - name: ⬇️Install Composer dependencies
