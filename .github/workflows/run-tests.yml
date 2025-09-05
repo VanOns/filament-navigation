@@ -27,13 +27,20 @@ jobs:
           - laravel: 11.*
             php: 8.2
             testbench: ^9.0
+            canvas: ^9.0
           - laravel: 11.*
             php: 8.3
             testbench: ^9.0
+            canvas: ^9.0
           # Laravel 12
           - laravel: 12.*
             php: 8.3
             testbench: ^10.0
+            canvas: ^10.0
+        exclude:
+          # Laravel 12 needs PHP 8.3+
+          - laravel: 12.*
+            php: 8.2
 
     steps:
       - name: 📄 Clone repository
@@ -52,8 +59,9 @@ jobs:
 
       - name: ⬇️Install Composer dependencies
         run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
-          composer update --${{ matrix.stability }} --prefer-dist --no-progress --no-ansi --no-interaction
+          composer require "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-update
+          composer require --dev "orchestra/testbench:${{ matrix.testbench }}" "orchestra/canvas:${{ matrix.canvas }}" --no-interaction --no-update
+          composer update --${{ matrix.stability }} -W --prefer-dist --no-progress --no-ansi --no-interaction
 
       - name: 🕵️Run Pest
         run: composer run test
