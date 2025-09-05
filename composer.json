@@ -32,7 +32,7 @@
         "orchestra/canvas": "^10.0",
         "orchestra/testbench": "^10.6",
         "pestphp/pest": "^3.8",
-        "pestphp/pest-plugin-laravel": "^3.02",
+        "pestphp/pest-plugin-laravel": "^3.2",
         "phpstan/extension-installer": "^1.4",
         "phpstan/phpstan-deprecation-rules": "^2.0",
         "phpstan/phpstan-phpunit": "^2.0",
