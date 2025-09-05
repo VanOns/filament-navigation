@@ -6,12 +6,13 @@
         "filament",
         "navigation"
     ],
-    "homepage": "https://github.com/van-ons/filament-navigation",
+    "homepage": "https://github.com/VanOns/filament-navigation",
     "license": "MIT",
     "authors": [
         {
             "name": "Van Ons",
-            "email": "opensource@van-ons.nl"
+            "email": "opensource@van-ons.nl",
+            "role": "Developer"
         },
         {
             "name": "Ryan Chandler",
@@ -27,8 +28,8 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.87",
-        "nunomaduro/collision": "^8.8",
         "larastan/larastan": "^3.6",
+        "nunomaduro/collision": "^8.8",
         "orchestra/canvas": "^9.0|^10.0",
         "orchestra/testbench": "^9.0|^10.0",
         "pestphp/pest": "^3.8",
