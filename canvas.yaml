@@ -1,6 +1,6 @@
 preset: package
 
-namespace: RyanChandler\FilamentNavigation
+namespace: VanOns\FilamentNavigation
 user-auth-provider: App\User
 
 paths:
@@ -15,13 +15,13 @@ migration:
   prefix: ''
 
 console:
-  namespace: RyanChandler\FilamentNavigation\Console
+  namespace: VanOns\FilamentNavigation\Console
 
 model:
-  namespace: RyanChandler\FilamentNavigation
+  namespace: VanOns\FilamentNavigation
 
 provider:
-  namespace: RyanChandler\FilamentNavigation\Providers
+  namespace: VanOns\FilamentNavigation\Providers
 
 testing:
-  namespace: RyanChandler\FilamentNavigation\Tests
+  namespace: VanOns\FilamentNavigation\Tests

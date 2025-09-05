@@ -1,6 +1,6 @@
 <?php
 
-namespace RyanChandler\FilamentNavigation\Tests;
+namespace VanOns\FilamentNavigation\Tests;
 
 use BladeUI\Heroicons\BladeHeroiconsServiceProvider;
 use BladeUI\Icons\BladeIconsServiceProvider;
@@ -18,7 +18,7 @@ use Illuminate\Support\Str;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use RyanChandler\BladeCaptureDirective\BladeCaptureDirectiveServiceProvider;
-use RyanChandler\FilamentNavigation\FilamentNavigationServiceProvider;
+use VanOns\FilamentNavigation\FilamentNavigationServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -29,7 +29,7 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'RyanChandler\\FilamentNavigation\\Database\\Factories\\'.class_basename($modelName).'Factory'
+            fn (string $modelName) => 'VanOns\\FilamentNavigation\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
     }
 

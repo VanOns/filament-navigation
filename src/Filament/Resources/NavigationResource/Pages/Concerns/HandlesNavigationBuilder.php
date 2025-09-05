@@ -1,6 +1,6 @@
 <?php
 
-namespace RyanChandler\FilamentNavigation\Filament\Resources\NavigationResource\Pages\Concerns;
+namespace VanOns\FilamentNavigation\Filament\Resources\NavigationResource\Pages\Concerns;
 
 use Filament\Actions\Action;
 use Filament\Forms\ComponentContainer;
@@ -11,7 +11,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Get;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use RyanChandler\FilamentNavigation\FilamentNavigation;
+use VanOns\FilamentNavigation\FilamentNavigation;
 
 trait HandlesNavigationBuilder
 {

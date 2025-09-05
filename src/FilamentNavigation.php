@@ -1,6 +1,6 @@
 <?php
 
-namespace RyanChandler\FilamentNavigation;
+namespace VanOns\FilamentNavigation;
 
 use Closure;
 use Filament\Contracts\Plugin;
@@ -8,8 +8,8 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Panel;
 use Illuminate\Support\Str;
-use RyanChandler\FilamentNavigation\Filament\Resources\NavigationResource;
-use RyanChandler\FilamentNavigation\Models\Navigation;
+use VanOns\FilamentNavigation\Filament\Resources\NavigationResource;
+use VanOns\FilamentNavigation\Models\Navigation;
 
 class FilamentNavigation implements Plugin
 {
@@ -20,6 +20,8 @@ class FilamentNavigation implements Plugin
     protected array $itemTypes = [];
 
     protected array | Closure $extraFields = [];
+
+    protected ?array $mountedActionData = null;
 
     public function getId(): string
     {
@@ -72,12 +74,18 @@ class FilamentNavigation implements Plugin
 
     public static function make(): static
     {
-        return new static();
+        /** @var static $instance */
+        $instance = app(static::class);
+
+        return $instance;
     }
 
     public static function get(): static
     {
-        return filament('navigation');
+        /** @var static $plugin */
+        $plugin = filament('navigation');
+
+        return $plugin;
     }
 
     public function getModel(): string

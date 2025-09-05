@@ -1,14 +1,18 @@
 {
-    "name": "ryangjchandler/filament-navigation",
+    "name": "van-ons/filament-navigation",
     "description": "Build structured navigation menus in Filament.",
     "keywords": [
-        "ryangjchandler",
         "laravel",
-        "filament-navigation"
+        "filament",
+        "navigation"
     ],
-    "homepage": "https://github.com/ryangjchandler/filament-navigation",
+    "homepage": "https://github.com/van-ons/filament-navigation",
     "license": "MIT",
     "authors": [
+        {
+            "name": "Van Ons",
+            "email": "opensource@van-ons.nl"
+        },
         {
             "name": "Ryan Chandler",
             "email": "support@ryangjchandler.co.uk",
@@ -16,42 +20,43 @@
         }
     ],
     "require": {
-        "php": "^8.1",
+        "php": "^8.1|^8.2",
         "doctrine/dbal": "^3.5.1",
-        "illuminate/contracts": "^10.0|^11.0",
         "filament/filament": "^3.0",
+        "illuminate/contracts": "^10.0|^11.0|^12.0",
         "spatie/laravel-package-tools": "^1.9.2"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.8",
-        "nunomaduro/collision": "^7.0|^8.0",
-        "nunomaduro/larastan": "^2.0.1",
-        "orchestra/canvas": "^8.0",
-        "orchestra/testbench": "^8.0|^9.0",
-        "pestphp/pest": "^2.0",
-        "pestphp/pest-plugin-laravel": "^2.0",
+        "larastan/larastan": "^2.0|^3.0",
+        "nunomaduro/collision": "^6.3|^7.0|^8.0",
+        "orchestra/canvas": "^8.0|^9.0|^10.0",
+        "orchestra/testbench": "^8.13|^9.0|^10.0",
+        "pestphp/pest": "^2.0|^3.0",
+        "pestphp/pest-plugin-laravel": "^2.0|^3.0",
         "phpstan/extension-installer": "^1.1",
-        "phpstan/phpstan-deprecation-rules": "^1.0",
-        "phpstan/phpstan-phpunit": "^1.0",
-        "phpunit/phpunit": "^9.5|^10.0",
+        "phpstan/phpstan-deprecation-rules": "^1.0|^2.0",
+        "phpstan/phpstan-phpunit": "^1.0|^2.0",
+        "phpunit/phpunit": "^9.5|^10.0|^11.0",
         "spatie/laravel-ray": "^1.26"
     },
     "autoload": {
         "psr-4": {
-            "RyanChandler\\FilamentNavigation\\": "src",
-            "RyanChandler\\FilamentNavigation\\Database\\Factories\\": "database/factories"
+            "VanOns\\FilamentNavigation\\": "src",
+            "VanOns\\FilamentNavigation\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "RyanChandler\\FilamentNavigation\\Tests\\": "tests"
+            "VanOns\\FilamentNavigation\\Tests\\": "tests"
         }
     },
     "scripts": {
         "analyse": "vendor/bin/phpstan analyse",
         "test": "vendor/bin/pest",
         "test-coverage": "vendor/bin/pest coverage",
-        "format": "vendor/bin/php-cs-fixer fix --config=.php_cs.dist.php --allow-risky=yes"
+        "format": "vendor/bin/php-cs-fixer fix --config=.php_cs.dist.php --allow-risky=yes",
+        "format:check": "vendor/bin/php-cs-fixer fix --dry-run --config=.php_cs.dist.php --allow-risky=yes"
     },
     "config": {
         "sort-packages": true,
@@ -63,7 +68,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "RyanChandler\\FilamentNavigation\\FilamentNavigationServiceProvider"
+                "VanOns\\FilamentNavigation\\FilamentNavigationServiceProvider"
             ]
         }
     },

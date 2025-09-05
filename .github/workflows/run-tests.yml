@@ -1,55 +1,83 @@
-name: run-tests
+name: Run tests
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
   pull_request:
-    branches:
-      - main
+    types: [ opened, synchronize, reopened ]
+    branches-ignore:
+      - 'dependabot/npm_and_yarn/*'
 
 jobs:
   test:
     runs-on: ${{ matrix.os }}
+    name: 'Test: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}'
 
     strategy:
       fail-fast: true
       matrix:
-        os: [ubuntu-latest, windows-latest]
-        php: [8.1, 8.2]
-        laravel: ['10.*', '11.*']
-        stability: [prefer-lowest, prefer-stable]
+        os: [ ubuntu-latest ]
+        php: [ 8.1, 8.2 ]
+        laravel: [ 10.*, 11.*, 12.* ]
+        stability: [ prefer-lowest, prefer-stable ]
         include:
           - laravel: 10.*
-            testbench: ^8.0
+            testbench: ^8.13
           - laravel: 11.*
             testbench: ^9.0
+          - laravel: 12.*
+            testbench: ^10.0
         exclude:
           - laravel: 11.*
             php: 8.1
-
-    name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
+          - laravel: 12.*
+            php: 8.1
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: 📄 Clone repository
+        uses: actions/checkout@v4
 
-      - name: Setup PHP
+      - name: ⚙️Set up PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
           coverage: none
 
-      - name: Setup problem matchers
+      - name: ⚙️Set up problem matchers
         run: |
           echo "::add-matcher::${{ runner.tool_cache }}/php.json"
           echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-      - name: Install dependencies
+      - name: ⬇️Install Composer dependencies
         run: |
           composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
-          composer update --${{ matrix.stability }} --prefer-dist --no-interaction
+          composer update --${{ matrix.stability }} --prefer-dist --no-progress --no-ansi --no-interaction
 
-      - name: Execute tests
-        run: vendor/bin/pest
+      - name: 🕵️Run Pest
+        run: composer run test
+
+  analyse:
+    runs-on: ubuntu-latest
+    name: Analyse
+
+    steps:
+      - name: 📄 Clone repository
+        uses: actions/checkout@v4
+
+      - name: 🔎 Read PHP version
+        id: php
+        run: echo "version=$(cat .php-version)" >> $GITHUB_OUTPUT
+
+      - name: ⚙️Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ steps.php.outputs.version }}
+          coverage: none
+
+      - name: ⬇️Install Composer dependencies
+        run: composer validate --no-check-publish && composer install --prefer-dist --no-progress --no-ansi --no-interaction
+
+      - name: 🕵️Run PHPStan
+        run: composer run analyse
+
+      - name: 🧑‍🔧Run PHP-CS-Fixer
+        run: composer run format:check

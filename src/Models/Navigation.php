@@ -1,6 +1,6 @@
 <?php
 
-namespace RyanChandler\FilamentNavigation\Models;
+namespace VanOns\FilamentNavigation\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
