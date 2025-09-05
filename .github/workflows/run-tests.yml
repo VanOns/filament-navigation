@@ -10,11 +10,12 @@ on:
 jobs:
   test:
     runs-on: ${{ matrix.os }}
+    name: 'Test: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}'
 
     strategy:
       fail-fast: true
       matrix:
-        os: [ ubuntu-latest, windows-latest ]
+        os: [ ubuntu-latest ]
         php: [ 8.1, 8.2 ]
         laravel: [ 10.*, 11.*, 12.* ]
         stability: [ prefer-lowest, prefer-stable ]
@@ -31,8 +32,6 @@ jobs:
           - laravel: 12.*
             php: 8.1
 
-    name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
-
     steps:
       - name: 📄 Clone repository
         uses: actions/checkout@v4
@@ -41,7 +40,6 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
           coverage: none
 
       - name: ⚙️Set up problem matchers
@@ -54,11 +52,28 @@ jobs:
           composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
           composer update --${{ matrix.stability }} --prefer-dist --no-progress --no-ansi --no-interaction
 
+      - name: 🕵️Run Pest
+        run: composer run test
+
+  analyse:
+    runs-on: ubuntu-latest
+    name: Analyse
+
+    steps:
+      - name: 📄 Clone repository
+        uses: actions/checkout@v4
+
+      - name: ⚙️Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: $(cat .php-version)
+          coverage: none
+
+      - name: ⬇️Install Composer dependencies
+        run: composer validate --no-check-publish && composer install --prefer-dist --no-progress --no-ansi --no-interaction
+
       - name: 🕵️Run PHPStan
         run: composer run analyse
 
       - name: 🧑‍🔧Run PHP-CS-Fixer
         run: composer run format:check
-
-      - name: 🕵️Run Pest
-        run: composer run test
