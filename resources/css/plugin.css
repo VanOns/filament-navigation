@@ -1,7 +1,1 @@
-@import "tailwindcss";
-
-@config '../../tailwind.config.js';
-
-.sortable-container-maybe-active {
-
-}
+@import 'tailwindcss';

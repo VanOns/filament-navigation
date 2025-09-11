@@ -63,7 +63,8 @@ class NavigationResource extends Resource
                     Fieldset::make(__('filament-navigation::filament-navigation.attributes.items'))
                         ->schema([
                             View::make('filament-navigation::navigation-builder'),
-                        ]),
+                        ])
+                        ->columns(1),
                 ])
                     ->columnSpan([
                         'default' => 12,

@@ -3,7 +3,7 @@
         <div
             class="space-y-2"
             x-data="navigationSortableContainer({
-                statePath: @js('data.items')
+                statePath: 'data.items'
             })"
             data-sortable-container
         >
@@ -15,8 +15,7 @@
                 <x-filament-navigation::nav-item :statePath="'data.items.' . $uuid" :item="$item" />
             @empty
                 <div @class([
-                    'w-full bg-white rounded-lg border border-gray-300 px-3 py-2 text-left',
-                    'dark:bg-[#242426] dark:border-[#464648]',
+                    'fi-input-wrp px-3 py-2',
                 ])>
                     {{ __('filament-navigation::filament-navigation.items.empty') }}
                 </div>
