@@ -16,13 +16,13 @@ use VanOns\FilamentNavigation\FilamentNavigation;
 
 trait HandlesNavigationBuilder
 {
-    public $mountedItem;
+    public ?string $mountedItem = null;
 
-    public $mountedItemData = [];
+    public array $mountedItemData = [];
 
-    public $mountedChildTarget;
+    public ?string $mountedChildTarget = null;
 
-    public function sortNavigation(string $targetStatePath, array $targetItemsStatePaths)
+    public function sortNavigation(string $targetStatePath, array $targetItemsStatePaths): void
     {
         $items = [];
 
@@ -36,14 +36,14 @@ trait HandlesNavigationBuilder
         data_set($this, $targetStatePath, $items);
     }
 
-    public function addChild(string $statePath)
+    public function addChild(string $statePath): void
     {
         $this->mountedChildTarget = $statePath;
 
         $this->mountAction('item');
     }
 
-    public function removeItem(string $statePath)
+    public function removeItem(string $statePath): void
     {
         $uuid = Str::afterLast($statePath, '.');
 
@@ -53,7 +53,7 @@ trait HandlesNavigationBuilder
         data_set($this, $parentPath, Arr::except($parent, $uuid));
     }
 
-    public function editItem(string $statePath)
+    public function editItem(string $statePath): void
     {
         $this->mountedItem = $statePath;
         $this->mountedItemData = Arr::except(data_get($this, $statePath), 'children');
@@ -61,11 +61,10 @@ trait HandlesNavigationBuilder
         $this->mountAction('item');
     }
 
-    public function createItem()
+    public function createItem(): void
     {
         $this->mountedItem = null;
         $this->mountedItemData = [];
-        $this->mountedActionData = [];
 
         $this->mountAction('item');
     }
@@ -75,7 +74,7 @@ trait HandlesNavigationBuilder
         return [
             Action::make('item')
                 ->mountUsing(function (Schema $schema) {
-                    if (! $this->mountedItem) {
+                    if (!$this->mountedItem) {
                         return;
                     }
 
@@ -94,7 +93,7 @@ trait HandlesNavigationBuilder
                             return array_combine(array_keys($types), Arr::pluck($types, 'name'));
                         })
                         ->afterStateUpdated(function ($state, Select $component, Set $set): void {
-                            if (! $state) {
+                            if (!$state) {
                                 return;
                             }
 
@@ -112,9 +111,7 @@ trait HandlesNavigationBuilder
                     Group::make()
                         ->statePath('data')
                         ->visible(fn (Component $component) => $component->evaluate(FilamentNavigation::get()->getExtraFields()) !== [])
-                        ->schema(function (Component $component) {
-                            return FilamentNavigation::get()->getExtraFields();
-                        }),
+                        ->schema(fn () => FilamentNavigation::get()->getExtraFields()),
                 ])
                 ->modalWidth('md')
                 ->action(function (array $data) {
@@ -140,8 +137,6 @@ trait HandlesNavigationBuilder
                             ...['children' => []],
                         ];
                     }
-
-                    $this->mountedActionData = [];
                 })
                 ->modalSubmitActionLabel(__('filament-navigation::filament-navigation.items-modal.btn'))
                 ->label(__('filament-navigation::filament-navigation.items-modal.title')),
