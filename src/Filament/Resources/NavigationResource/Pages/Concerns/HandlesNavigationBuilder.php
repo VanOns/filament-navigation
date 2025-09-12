@@ -74,7 +74,7 @@ trait HandlesNavigationBuilder
         return [
             Action::make('item')
                 ->mountUsing(function (Schema $schema) {
-                    if (!$this->mountedItem) {
+                    if (! $this->mountedItem) {
                         return;
                     }
 
@@ -93,7 +93,7 @@ trait HandlesNavigationBuilder
                             return array_combine(array_keys($types), Arr::pluck($types, 'name'));
                         })
                         ->afterStateUpdated(function ($state, Select $component, Set $set): void {
-                            if (!$state) {
+                            if (! $state) {
                                 return;
                             }
 
