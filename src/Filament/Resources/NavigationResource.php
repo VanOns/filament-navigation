@@ -2,27 +2,28 @@
 
 namespace VanOns\FilamentNavigation\Filament\Resources;
 
-use Filament\Forms\Components\Group;
-use Filament\Forms\Components\Placeholder;
-use Filament\Forms\Components\Section;
+use BackedEnum;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\View;
-use Filament\Forms\Components\ViewField;
-use Filament\Forms\Form;
-use Filament\Forms\Set;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\EditAction;
+use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Components\Group;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Set;
+use Filament\Schemas\Components\View;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use VanOns\FilamentNavigation\FilamentNavigation;
 use VanOns\FilamentNavigation\Models\Navigation;
 
 class NavigationResource extends Resource
 {
-    protected static ?string $navigationIcon = 'heroicon-o-bars-3';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-bars-3';
 
     protected static bool $showTimestamps = true;
 
@@ -37,9 +38,9 @@ class NavigationResource extends Resource
         static::$showTimestamps = ! $condition;
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Section::make('')->schema([
                     TextInput::make('name')
@@ -56,10 +57,14 @@ class NavigationResource extends Resource
                             }
                         })
                         ->required(),
-                    ViewField::make('items')
-                        ->label(__('filament-navigation::filament-navigation.attributes.items'))
+                    Hidden::make('items')
                         ->default([])
-                        ->view('filament-navigation::navigation-builder'),
+                        ->dehydrated(true),
+                    Fieldset::make(__('filament-navigation::filament-navigation.attributes.items'))
+                        ->schema([
+                            View::make('filament-navigation::navigation-builder'),
+                        ])
+                        ->columns(1),
                 ])
                     ->columnSpan([
                         'default' => 12,
@@ -67,21 +72,25 @@ class NavigationResource extends Resource
                     ]),
                 Group::make([
                     Section::make('')->schema([
-                        TextInput::make('handle')
-                            ->label(__('filament-navigation::filament-navigation.attributes.handle'))
-                            ->required()
-                            ->unique(column: 'handle', ignoreRecord: true),
-                        View::make('filament-navigation::card-divider')
-                            ->visible(static::$showTimestamps),
-                        Placeholder::make('created_at')
-                            ->label(__('filament-navigation::filament-navigation.attributes.created_at'))
-                            ->visible(static::$showTimestamps)
-                            ->content(fn (?Navigation $record) => $record ? $record->created_at->translatedFormat(Table::$defaultDateTimeDisplayFormat) : new HtmlString('&mdash;')),
-                        Placeholder::make('updated_at')
-                            ->label(__('filament-navigation::filament-navigation.attributes.updated_at'))
-                            ->visible(static::$showTimestamps)
-                            ->content(fn (?Navigation $record) => $record ? $record->updated_at->translatedFormat(Table::$defaultDateTimeDisplayFormat) : new HtmlString('&mdash;')),
-                    ]),
+                            TextInput::make('handle')
+                                ->label(__('filament-navigation::filament-navigation.attributes.handle'))
+                                ->required()
+                                ->unique(column: 'handle', ignoreRecord: true),
+                            View::make('filament-navigation::card-divider')
+                                ->visible(static::$showTimestamps),
+                            TextEntry::make('created_at_display')
+                                ->label(__('filament-navigation::filament-navigation.attributes.created_at'))
+                                ->visible(static::$showTimestamps)
+                                ->state(fn (?Navigation $record) => $record?->created_at)
+                                ->dateTime()
+                                ->placeholder('—'),
+                            TextEntry::make('updated_at_display')
+                                ->label(__('filament-navigation::filament-navigation.attributes.updated_at'))
+                                ->visible(static::$showTimestamps)
+                                ->state(fn (?Navigation $record) => $record?->updated_at)
+                                ->dateTime()
+                                ->placeholder('—'),
+                        ]),
                 ])
                     ->columnSpan([
                         'default' => 12,
@@ -140,14 +149,11 @@ class NavigationResource extends Resource
                     ->dateTime()
                     ->sortable(),
             ])
-            ->actions([
+            ->recordActions([
                 EditAction::make()
                     ->icon(null),
                 DeleteAction::make()
                     ->icon(null),
-            ])
-            ->filters([
-
             ]);
     }
 
