@@ -2,9 +2,9 @@
 
 # Filament Navigation
 
-[![Latest Version on Github](https://img.shields.io/github/release/VanOns/filament-navigation.svg?style=flat-square)](https://github.com/VanOns/filament-navigation/releases)
-[![Total Downloads](https://img.shields.io/packagist/dt/van-ons/filament-navigation.svg?style=flat-square)](https://packagist.org/packages/van-ons/filament-navigation)
-[![Github issues](https://img.shields.io/github/issues/VanOns/filament-navigation?style=flat-square)](https://github.com/VanOns/filament-navigation/issues)
+[![Latest version on GitHub](https://img.shields.io/github/release/VanOns/filament-navigation.svg?style=flat-square)](https://github.com/VanOns/filament-navigation/releases)
+[![Total downloads](https://img.shields.io/packagist/dt/van-ons/filament-navigation.svg?style=flat-square)](https://packagist.org/packages/van-ons/filament-navigation)
+[![GitHub issues](https://img.shields.io/github/issues/VanOns/filament-navigation?style=flat-square)](https://github.com/VanOns/filament-navigation/issues)
 [![License](https://img.shields.io/github/license/VanOns/filament-navigation?style=flat-square)](https://github.com/VanOns/filament-navigation/blob/main/LICENSE.md)
 
 This plugin for Filament provides a `Navigation` resource that lets you build structural navigation menus with a clean drag-and-drop UI.
@@ -16,9 +16,10 @@ This plugin for Filament provides a `Navigation` resource that lets you build st
 For certain Filament versions, changes have to be made that render the package backwards incompatible with the previous version.
 Please see the table below to determine which version you need.
 
-| Version      | Filament |
-|--------------|----------|
-| v1 (current) | <4.0     |
+| Version                                                                | Filament |
+|------------------------------------------------------------------------|----------|
+| [v2](https://github.com/VanOns/filament-navigation/tree/releases/main) | \>=4.0   |
+| v1 (current)                                                           | <4.0     |
 
 **Please note:** the `main` branch will always be the latest major version.
 
@@ -27,7 +28,7 @@ Please see the table below to determine which version you need.
 Start by installing the package via Composer:
 
 ```bash
-composer require van-ons/filament-navigation
+composer require van-ons/filament-navigation:^1.0
 ```
 
 Next, run the migrations:
