@@ -9,6 +9,7 @@ on:
     types: [ opened, synchronize, reopened ]
     branches-ignore:
       - 'dependabot/npm_and_yarn/*'
+      - 'dependabot/github_actions/*'
 
 jobs:
   test:
