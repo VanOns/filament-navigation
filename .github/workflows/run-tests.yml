@@ -8,8 +8,8 @@ on:
   pull_request:
     types: [ opened, synchronize, reopened ]
     branches-ignore:
-      - 'dependabot/npm_and_yarn/*'
       - 'dependabot/github_actions/*'
+      - 'dependabot/npm_and_yarn/*'
 
 jobs:
   test:
@@ -21,7 +21,7 @@ jobs:
       matrix:
         os: [ ubuntu-latest ]
         php: [ 8.2, 8.3 ]
-        laravel: [  11.*, 12.* ]
+        laravel: [ 11.*, 12.* ]
         stability: [ prefer-lowest, prefer-stable ]
         include:
           # Laravel 11
