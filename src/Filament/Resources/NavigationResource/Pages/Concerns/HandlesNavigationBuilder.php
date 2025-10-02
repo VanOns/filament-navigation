@@ -40,6 +40,9 @@ trait HandlesNavigationBuilder
     {
         $this->mountedChildTarget = $statePath;
 
+        $this->mountedItem = null;
+        $this->mountedActionData = [];
+        
         $this->mountAction('item');
     }
 
