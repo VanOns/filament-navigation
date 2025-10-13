@@ -40,6 +40,9 @@ updates:
       interval: weekly
     labels:
       - dependencies
+    ignore:
+      - dependency-name: tailwindcss
+        versions: [ '^4' ]
 
   - package-ecosystem: composer
     target-branch: 'releases/v1'
