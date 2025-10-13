@@ -41,6 +41,7 @@ trait HandlesNavigationBuilder
 
         $this->mountedItem = null;
         $this->mountedItemData = [];
+        $this->mountedActionData = [];
 
         $this->mountAction('item');
     }
