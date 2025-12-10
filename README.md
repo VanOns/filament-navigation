@@ -1,4 +1,4 @@
-<p align="center"><img src="art/social-card.png" alt="Social card of Filament Navigation"></p>
+<p align="center" class="filament-hidden"><img src="art/social-card.png" alt="Social card of Filament Navigation"></p>
 
 # Filament Navigation
 
