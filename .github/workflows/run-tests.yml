@@ -38,9 +38,15 @@ jobs:
             php: 8.3
             testbench: ^10.0
             canvas: ^10.0
+          # Laravel 13
+          - laravel: 13.*
+            php: 8.3
+            testbench: ^11.0
+            canvas: ^11.0
         exclude:
-          # Laravel 12 needs PHP 8.3+
           - laravel: 12.*
+            php: 8.2
+          - laravel: 13.*
             php: 8.2
 
     steps:
