@@ -54,7 +54,7 @@ return $panel
     ->plugin(FilamentNavigation::make());
 ```
 
-If you wish to customise the navigation group, sort or icon, you can use the `NavigationResource::navigationGroup()`,
+If you wish to customize the navigation group, sort or icon, you can use the `NavigationResource::navigationGroup()`,
 `NavigationResource::navigationSort()` and `NavigationResource::navigationIcon()` methods.
 
 See [Basic usage](docs/basic-usage.md) for more information.
