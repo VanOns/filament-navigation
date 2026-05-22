@@ -25,14 +25,6 @@ updates:
     labels:
       - dependencies
 
-  - package-ecosystem: github-actions
-    target-branch: 'release/v1'
-    directory: /
-    schedule:
-      interval: weekly
-    labels:
-      - dependencies
-
   - package-ecosystem: npm
     target-branch: 'release/v1'
     directory: /
@@ -43,6 +35,8 @@ updates:
     ignore:
       - dependency-name: tailwindcss
         versions: [ '^4' ]
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: composer
     target-branch: 'release/v1'
@@ -51,3 +45,6 @@ updates:
       interval: weekly
     labels:
       - dependencies
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
