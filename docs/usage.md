@@ -1,4 +1,4 @@
-# Basic usage
+# Usage
 
 You first need to register the plugin with Filament. This can be done inside your `PanelProvider`, e.g. `AdminPanelProvider`:
 
