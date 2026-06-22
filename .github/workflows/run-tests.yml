@@ -51,7 +51,7 @@ jobs:
 
     steps:
       - name: 📄 Clone repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: ⚙️Set up PHP
         uses: shivammathur/setup-php@v2
@@ -79,7 +79,7 @@ jobs:
 
     steps:
       - name: 📄 Clone repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: 🔎 Read PHP version
         id: php
