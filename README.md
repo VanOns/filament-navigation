@@ -6,6 +6,7 @@
 [![Total downloads](https://img.shields.io/packagist/dt/van-ons/filament-navigation.svg?style=flat-square)](https://packagist.org/packages/van-ons/filament-navigation)
 [![GitHub issues](https://img.shields.io/github/issues/VanOns/filament-navigation?style=flat-square)](https://github.com/VanOns/filament-navigation/issues)
 [![License](https://img.shields.io/github/license/VanOns/filament-navigation?style=flat-square)](https://github.com/VanOns/filament-navigation/blob/main/LICENSE.md)
+[![Plumb score](https://img.shields.io/badge/dynamic/regex?url=https%3A%2F%2Fplumbphp.dev%2Fbadges%2Fvan-ons%2Ffilament-navigation%2Fcomposite.svg&search=%3Ctitle%3Eplumb%3A%5Cs%2A%28%5B%5E%3C%5D%2B%29%3C&replace=%241&label=plumb&style=flat-square)](https://plumbphp.dev/van-ons/filament-navigation)
 
 This plugin for Filament provides a `Navigation` resource that lets you build structural navigation menus with a clean drag-and-drop UI.
 

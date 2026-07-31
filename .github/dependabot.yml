@@ -6,6 +6,8 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    cooldown:
+      default-days: 7
     labels:
       - dependencies
 
@@ -14,6 +16,8 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    cooldown:
+      default-days: 7
     labels:
       - dependencies
 
@@ -22,6 +26,8 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    cooldown:
+      default-days: 7
     labels:
       - dependencies
 
@@ -30,11 +36,11 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    cooldown:
+      default-days: 7
     labels:
       - dependencies
     ignore:
-      - dependency-name: tailwindcss
-        versions: [ '^4' ]
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
 
@@ -43,6 +49,8 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    cooldown:
+      default-days: 7
     labels:
       - dependencies
     ignore:
