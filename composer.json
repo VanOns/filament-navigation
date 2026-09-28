@@ -29,7 +29,7 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.8",
         "larastan/larastan": "^2.0|^3.0",
-        "nunomaduro/collision": "^6.3|^7.0|^8.0",
+        "nunomaduro/collision": "^8.9.5",
         "orchestra/canvas": "^8.0|^9.0|^10.0",
         "orchestra/testbench": "^8.13|^9.0|^10.0",
         "pestphp/pest": "^2.0|^3.0",
