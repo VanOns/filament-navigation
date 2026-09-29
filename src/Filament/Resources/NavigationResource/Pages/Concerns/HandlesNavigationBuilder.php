@@ -8,7 +8,6 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Component;
 use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Utilities\Get;
-use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -95,12 +94,19 @@ trait HandlesNavigationBuilder
 
                             return array_combine(array_keys($types), Arr::pluck($types, 'name'));
                         })
-                        ->afterStateUpdated(function ($state, Select $component, Set $set): void {
+                        ->afterStateUpdated(function ($state, Select $component, Get $get): void {
                             if (! $state) {
                                 return;
                             }
 
-                            $set('data', []);
+                            // Registers the new type's fields before Livewire tries to
+                            // entangle them (Livewire doesn't allow entangling to an array key
+                            // that doesn't exist yet); passing existing data avoids wiping values
+                            // set in this same request.
+                            $component->getContainer()
+                                ->getComponent(fn (Component $sibling): bool => $sibling instanceof Group)
+                                ?->getChildSchema()
+                                ?->fill($get('data') ?? []);
                         })
                         ->reactive(),
                     Group::make()
