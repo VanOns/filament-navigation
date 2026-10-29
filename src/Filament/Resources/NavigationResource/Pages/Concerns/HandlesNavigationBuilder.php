@@ -88,7 +88,7 @@ trait HandlesNavigationBuilder
 
         $this->fillMountedItemDataSchema($index);
     }
-    
+
     private function fillMountedItemDataSchema(int $index): void
     {
         $schema = $this->getMountedActionSchema($index);
