@@ -8,7 +8,6 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Component;
 use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Utilities\Get;
-use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -72,6 +71,43 @@ trait HandlesNavigationBuilder
         $this->mountAction('item');
     }
 
+    public function updatedInteractsWithSchemas(string $statePath): void
+    {
+        parent::updatedInteractsWithSchemas($statePath);
+
+        if (! preg_match('/^mountedActions\.(\d+)(?:\.data)?$/', $statePath, $matches)) {
+            return;
+        }
+
+        $index = (int) $matches[1];
+        $type = data_get($this->mountedActions, "{$index}.data.type");
+
+        if (blank($type) || is_array(data_get($this->mountedActions, "{$index}.data.data"))) {
+            return;
+        }
+
+        $this->fillMountedItemDataSchema($index);
+    }
+
+    private function fillMountedItemDataSchema(int $index): void
+    {
+        $schema = $this->getMountedActionSchema($index);
+
+        if (! $schema) {
+            return;
+        }
+
+        foreach ($schema->getComponents(withHidden: true) as $component) {
+            if ($component->getStatePath(isAbsolute: false) !== 'data') {
+                continue;
+            }
+
+            foreach ($component->getChildSchemas(withHidden: true) as $childSchema) {
+                $childSchema->fill();
+            }
+        }
+    }
+
     protected function getActions(): array
     {
         return [
@@ -95,26 +131,35 @@ trait HandlesNavigationBuilder
 
                             return array_combine(array_keys($types), Arr::pluck($types, 'name'));
                         })
-                        ->afterStateUpdated(function ($state, Select $component, Set $set): void {
+                        ->afterStateUpdated(function ($state): void {
                             if (! $state) {
                                 return;
                             }
 
-                            $set('data', []);
+                            $index = array_key_last($this->mountedActions);
+
+                            if (! is_int($index)) {
+                                return;
+                            }
+
+                            data_set($this, "mountedActions.{$index}.data.data", []);
+
+                            $this->fillMountedItemDataSchema($index);
                         })
                         ->reactive(),
                     Group::make()
                         ->statePath('data')
                         ->whenTruthy('type')
-                        ->schema(function (Get $get) {
+                        ->schema(function (Get $get, Component $component) {
                             $type = $get('type');
+                            $fields = FilamentNavigation::get()->getItemTypes()[$type]['fields'] ?? [];
 
-                            return FilamentNavigation::get()->getItemTypes()[$type]['fields'] ?? [];
+                            return $component->evaluate($fields);
                         }),
                     Group::make()
                         ->statePath('data')
                         ->visible(fn (Component $component) => $component->evaluate(FilamentNavigation::get()->getExtraFields()) !== [])
-                        ->schema(fn () => FilamentNavigation::get()->getExtraFields()),
+                        ->schema(fn (Component $component) => $component->evaluate(FilamentNavigation::get()->getExtraFields()) ?? []),
                 ])
                 ->modalWidth('md')
                 ->action(function (array $data) {
