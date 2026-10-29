@@ -71,11 +71,6 @@ trait HandlesNavigationBuilder
         $this->mountAction('item');
     }
 
-    /**
-     * Livewire 4 often syncs the whole mounted action, not the Type field.
-     * The Type afterStateUpdated hook then never runs, and item data stays null.
-     * Filling the data groups here is the same work that hook does when it does run.
-     */
     public function updatedInteractsWithSchemas(string $statePath): void
     {
         parent::updatedInteractsWithSchemas($statePath);
@@ -87,18 +82,13 @@ trait HandlesNavigationBuilder
         $index = (int) $matches[1];
         $type = data_get($this->mountedActions, "{$index}.data.type");
 
-        // An edit already has an array. Filling again would replace saved values with defaults.
         if (blank($type) || is_array(data_get($this->mountedActions, "{$index}.data.data"))) {
             return;
         }
 
         $this->fillMountedItemDataSchema($index);
     }
-
-    /**
-     * Filament hydrates defaults, nested layouts, and closure schemas.
-     * An empty array is not enough: a missing key is undefined and $entangle will not bind.
-     */
+    
     private function fillMountedItemDataSchema(int $index): void
     {
         $schema = $this->getMountedActionSchema($index);
