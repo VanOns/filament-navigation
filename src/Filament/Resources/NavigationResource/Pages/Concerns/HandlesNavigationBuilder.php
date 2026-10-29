@@ -8,7 +8,6 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Component;
 use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Utilities\Get;
-use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -72,6 +71,11 @@ trait HandlesNavigationBuilder
         $this->mountAction('item');
     }
 
+    /**
+     * Livewire 4 often syncs the whole mounted action, not the Type field.
+     * The Type afterStateUpdated hook then never runs, and item data stays null.
+     * Filling the data groups here is the same work that hook does when it does run.
+     */
     public function updatedInteractsWithSchemas(string $statePath): void
     {
         parent::updatedInteractsWithSchemas($statePath);
@@ -83,30 +87,35 @@ trait HandlesNavigationBuilder
         $index = (int) $matches[1];
         $type = data_get($this->mountedActions, "{$index}.data.type");
 
+        // An edit already has an array. Filling again would replace saved values with defaults.
         if (blank($type) || is_array(data_get($this->mountedActions, "{$index}.data.data"))) {
             return;
         }
 
-        $registered = FilamentNavigation::get()->getItemTypes()[$type]['fields'] ?? [];
-        $extra = FilamentNavigation::get()->getExtraFields();
-        $fields = [
-            ...(is_array($registered) ? $registered : []),
-            ...(is_array($extra) ? $extra : []),
-        ];
+        $this->fillMountedItemDataSchema($index);
+    }
 
-        $data = [];
+    /**
+     * Filament hydrates defaults, nested layouts, and closure schemas.
+     * An empty array is not enough: a missing key is undefined and $entangle will not bind.
+     */
+    private function fillMountedItemDataSchema(int $index): void
+    {
+        $schema = $this->getMountedActionSchema($index);
 
-        foreach ($fields as $field) {
-            if (! is_object($field) || ! method_exists($field, 'getStatePath')) {
+        if (! $schema) {
+            return;
+        }
+
+        foreach ($schema->getComponents(withHidden: true) as $component) {
+            if ($component->getStatePath(isAbsolute: false) !== 'data') {
                 continue;
             }
 
-            if ($name = $field->getStatePath(false)) {
-                $data[$name] = null;
+            foreach ($component->getChildSchemas(withHidden: true) as $childSchema) {
+                $childSchema->fill();
             }
         }
-
-        $this->mountedActions[$index]['data']['data'] = $data;
     }
 
     protected function getActions(): array
@@ -132,26 +141,35 @@ trait HandlesNavigationBuilder
 
                             return array_combine(array_keys($types), Arr::pluck($types, 'name'));
                         })
-                        ->afterStateUpdated(function ($state, Select $component, Set $set): void {
+                        ->afterStateUpdated(function ($state): void {
                             if (! $state) {
                                 return;
                             }
 
-                            $set('data', []);
+                            $index = array_key_last($this->mountedActions);
+
+                            if (! is_int($index)) {
+                                return;
+                            }
+
+                            data_set($this, "mountedActions.{$index}.data.data", []);
+
+                            $this->fillMountedItemDataSchema($index);
                         })
                         ->reactive(),
                     Group::make()
                         ->statePath('data')
                         ->whenTruthy('type')
-                        ->schema(function (Get $get) {
+                        ->schema(function (Get $get, Component $component) {
                             $type = $get('type');
+                            $fields = FilamentNavigation::get()->getItemTypes()[$type]['fields'] ?? [];
 
-                            return FilamentNavigation::get()->getItemTypes()[$type]['fields'] ?? [];
+                            return $component->evaluate($fields) ?? [];
                         }),
                     Group::make()
                         ->statePath('data')
                         ->visible(fn (Component $component) => $component->evaluate(FilamentNavigation::get()->getExtraFields()) !== [])
-                        ->schema(fn () => FilamentNavigation::get()->getExtraFields()),
+                        ->schema(fn (Component $component) => $component->evaluate(FilamentNavigation::get()->getExtraFields()) ?? []),
                 ])
                 ->modalWidth('md')
                 ->action(function (array $data) {
