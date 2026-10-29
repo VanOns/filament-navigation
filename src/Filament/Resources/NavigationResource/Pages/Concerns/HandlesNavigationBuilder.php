@@ -154,7 +154,7 @@ trait HandlesNavigationBuilder
                             $type = $get('type');
                             $fields = FilamentNavigation::get()->getItemTypes()[$type]['fields'] ?? [];
 
-                            return $component->evaluate($fields) ?? [];
+                            return $component->evaluate($fields);
                         }),
                     Group::make()
                         ->statePath('data')
