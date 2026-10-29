@@ -72,6 +72,43 @@ trait HandlesNavigationBuilder
         $this->mountAction('item');
     }
 
+    public function updatedInteractsWithSchemas(string $statePath): void
+    {
+        parent::updatedInteractsWithSchemas($statePath);
+
+        if (! preg_match('/^mountedActions\.(\d+)(?:\.data)?$/', $statePath, $matches)) {
+            return;
+        }
+
+        $index = (int) $matches[1];
+        $type = data_get($this->mountedActions, "{$index}.data.type");
+
+        if (blank($type) || is_array(data_get($this->mountedActions, "{$index}.data.data"))) {
+            return;
+        }
+
+        $registered = FilamentNavigation::get()->getItemTypes()[$type]['fields'] ?? [];
+        $extra = FilamentNavigation::get()->getExtraFields();
+        $fields = [
+            ...(is_array($registered) ? $registered : []),
+            ...(is_array($extra) ? $extra : []),
+        ];
+
+        $data = [];
+
+        foreach ($fields as $field) {
+            if (! is_object($field) || ! method_exists($field, 'getStatePath')) {
+                continue;
+            }
+
+            if ($name = $field->getStatePath(false)) {
+                $data[$name] = null;
+            }
+        }
+
+        $this->mountedActions[$index]['data']['data'] = $data;
+    }
+
     protected function getActions(): array
     {
         return [
