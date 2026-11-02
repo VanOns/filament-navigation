@@ -72,7 +72,7 @@ jobs:
         run: |
           composer require "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-update
           composer require --dev "orchestra/testbench:${{ matrix.testbench }}" "orchestra/canvas:${{ matrix.canvas }}" --no-interaction --no-update
-          composer update --${{ matrix.stability }} -W --prefer-dist --no-progress --no-ansi --no-interaction
+          composer update --${{ matrix.stability }} -W --prefer-dist --no-progress --no-ansi --no-interaction --no-blocking
 
       - name: 🕵️Run Pest
         run: composer run test
