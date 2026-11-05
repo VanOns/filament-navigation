@@ -45,7 +45,7 @@ class NavigationResource extends Resource
                 Section::make('')->schema([
                     TextInput::make('name')
                         ->label(__('filament-navigation::filament-navigation.attributes.name'))
-                        ->reactive()
+                        ->live()
                         ->debounce()
                         ->afterStateUpdated(function (?string $state, Set $set, string $context) {
                             if (! $state) {

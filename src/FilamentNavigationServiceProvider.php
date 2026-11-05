@@ -19,7 +19,7 @@ class FilamentNavigationServiceProvider extends ServiceProvider
             __DIR__ . '/../resources/views',
         ], 'filament-navigation');
 
-        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'filament-navigation');
+        $this->loadTranslationsFrom(__DIR__ . '/../lang', 'filament-navigation');
 
         FilamentAsset::register([
             Css::make('filament-navigation-styles', __DIR__ . '/../resources/dist/plugin.css'),
