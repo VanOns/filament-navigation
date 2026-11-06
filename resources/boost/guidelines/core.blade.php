@@ -82,6 +82,6 @@ Coming from `ryangjchandler/filament-navigation`: swap the package and replace t
 - The fields of an item type and the `withExtraFields()` fields are all stored under `data`, so keep their names distinct.
 - `fromHandle()` returns `null` for an unknown handle; handle that on the site. The handle is filled from the name only when a menu is created.
 - `config/filament-navigation.php` (`navigation_model`, `navigation_resource`) is not loaded or published by the service provider. Swap the model or resource with `usingModel()` / `usingResource()` on the plugin; a custom resource extends `NavigationResource`.
-- `NavigationSelect` always lists the package `Navigation` model and stores the `id`. It has no `optionValue()` method, despite the docs; to store the handle, use a plain `Select` with `Navigation::pluck('name', 'handle')`.
+- `NavigationSelect` lists the package `Navigation` model and stores its `id`; `->optionValue('handle')` stores the handle instead.
 - `FilamentNavigation::get()` resolves the plugin from the current panel, so the resource and its pages only work in a panel that registered it.
 - Override texts in `lang/vendor/filament-navigation/{locale}/filament-navigation.php` and views in `resources/views/vendor/filament-navigation/`; the package has no publish tags for them.
