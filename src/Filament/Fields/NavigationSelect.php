@@ -18,6 +18,13 @@ class NavigationSelect extends Select
         });
     }
 
+    public function optionValue(string $property): static
+    {
+        $this->optionValueProperty = $property;
+
+        return $this;
+    }
+
     public function getOptionValueProperty(): string
     {
         return $this->optionValueProperty;
