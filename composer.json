@@ -63,6 +63,14 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "phpstan/extension-installer": true
+        },
+        "policy": {
+            "cooldown": {
+                "period": "3 days",
+                "ignore": {
+                    "van-ons/*": "Our own packages, installed from VCS"
+                }
+            }
         }
     },
     "extra": {
