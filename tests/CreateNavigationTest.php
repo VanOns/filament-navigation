@@ -51,3 +51,14 @@ it('can create a navigation menu with items', function () {
                     ])
             );
 });
+
+it('registers the type-dependent data fields as soon as a type is selected', function () {
+    $component = Livewire::test(CreateNavigation::class)
+        ->set('data.name', 'Foo')
+        ->call('createItem')
+        ->set('mountedActions.0.data.type', 'external-link');
+
+    expect($component->get('mountedActions.0.data.data'))
+        ->toHaveKey('url')
+        ->toHaveKey('target');
+});
