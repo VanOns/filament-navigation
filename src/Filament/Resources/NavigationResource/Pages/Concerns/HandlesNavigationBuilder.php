@@ -71,6 +71,11 @@ trait HandlesNavigationBuilder
         $this->mountAction('item');
     }
 
+    /**
+     * Livewire 4 often syncs the whole mounted action, not the Type field.
+     * The Type afterStateUpdated hook then never runs, and item data stays null.
+     * Filling the data groups here is the same work that hook does when it does run.
+     */
     public function updatedInteractsWithSchemas(string $statePath): void
     {
         parent::updatedInteractsWithSchemas($statePath);
